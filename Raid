@@ -1,0 +1,127 @@
+repeat
+    wait(2)
+until game:GetService'Players'.LocalPlayer and game:GetService'Players'.LocalPlayer.Character and game:IsLoaded()
+
+client = game:service'Players'.LocalPlayer
+vel = Instance.new'BodyVelocity'
+
+function Vel()
+    vel.Name = 'Alignment'
+    vel.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+    vel.Velocity = Vector3.new(0, 0, 0)
+    vel.Parent = client.Character.HumanoidRootPart
+end
+
+if game.PlaceId == 7274690025 then
+    game:service'TeleportService':Teleport(7338881230)
+end
+
+if game.PlaceId == 7338881230 then
+    task.spawn(function()
+        while task.wait(3) do
+            game:service'ReplicatedStorage'.RemoteFunctions.MainRemoteFunction:InvokeServer(
+                'CreateRoom',
+                {
+                    ['Difficulty'] = 'Easy',
+                    ['FriendsOnly'] = true,
+                    ['MapName'] = Raid,
+                    ['Hardcore'] = false
+                }
+            )
+            game:service'ReplicatedStorage'.RemoteFunctions.MainRemoteFunction:InvokeServer('TeleportPlayers')
+        end
+    end)
+end
+
+if game.PlaceId == 6990129309 then
+    Vel()
+    task.spawn(function()
+        while task.wait(1) do
+            if not client.Character.HumanoidRootPart:FindFirstChild'Alignment' then
+                Vel()
+            end
+        end
+    end)
+    task.spawn(function()
+    while task.wait() do
+        pcall(function()
+            for m, n in pairs(game:service'Workspace'.Folders.Monsters:GetChildren()) do
+                repeat
+                    game:service'RunService'.Heartbeat:wait()
+                    local T = (n.HumanoidRootPart.Position - client.Character.HumanoidRootPart.Position).Magnitude
+                    if T < 999 then
+                        Speed2 = 80
+                    elseif T < 1000 then
+                        Speed2 = 80
+                    elseif T >= 1000 then
+                        Speed2 = 80
+                    end
+                    local U = game:service'TweenService'
+                    local V = TweenInfo.new(T / Speed2, Enum.EasingStyle.Linear)
+                    local W = U:Create(client.Character['HumanoidRootPart'], V, {CFrame = n.HumanoidRootPart.CFrame * CFrame.new(0, 0, 10)})
+                    W:Play()
+                    wait(T / Speed2)
+                    until n.Humanoid.Health <= 0 or not n.Parent or not n
+                end
+            end)
+        end
+    end)
+    task.spawn(function()
+        while task.wait(1) do
+            for m, n in pairs(getconnections(client.PlayerGui.UniversalGui.UniversalCenterUIFrame.SlotsHolder.Skill1.MouseButton1Click)) do
+                n:Fire()
+            end
+        end
+    end)
+    task.spawn(function()
+        while task.wait(1) do
+            for m, n in pairs(getconnections(client.PlayerGui.UniversalGui.UniversalCenterUIFrame.SlotsHolder.Skill2.MouseButton1Click)) do
+                n:Fire()
+            end
+        end
+    end)
+    task.spawn(function()
+        while task.wait(1) do
+            for m, n in pairs(getconnections(client.PlayerGui.UniversalGui.UniversalCenterUIFrame.SlotsHolder.Skill3.MouseButton1Click)) do
+                n:Fire()
+            end
+        end
+    end)
+    task.spawn(function()
+        while task.wait(1) do
+            for m, n in pairs(getconnections(client.PlayerGui.UniversalGui.UniversalCenterUIFrame.SlotsHolder.Skill4.MouseButton1Click)) do
+                n:Fire()
+            end
+        end
+    end)
+    task.spawn(function()
+        while task.wait(1) do
+            for m, n in pairs(getconnections(client.PlayerGui.UniversalGui.UniversalCenterUIFrame.SlotsHolder.SkillAssist1.MouseButton1Click)) do
+                n:Fire()
+            end
+        end
+    end)
+    task.spawn(function()
+        while task.wait(1) do
+            for m, n in pairs(getconnections(client.PlayerGui.UniversalGui.UniversalCenterUIFrame.SlotsHolder.SkillAssist2.MouseButton1Click)) do
+                n:Fire()
+            end
+        end
+    end)
+end
+
+client.Idled:Connect(function()
+	local VU = game:service'VirtualUser'
+	VU:CaptureController()
+	VU:ClickButton2(Vector2.new())
+end)
+
+game:service'RunService'.Stepped:connect(function()
+    getgenv().rejoin = game:service 'CoreGui'.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
+        if child.Name == 'ErrorPrompt' and child:FindFirstChild'MessageArea' and child.MessageArea:FindFirstChild'ErrorFrame' then 
+            game:service'TeleportService':Teleport(7338881230)
+            wait(5)
+            game:service'TeleportService':TeleportToPlaceInstance(7338881230, game.JobId)
+        end
+    end)
+end)
