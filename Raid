@@ -39,6 +39,7 @@ if game.PlaceId == 6990129309 and Settings.Start then
     task.spawn(function()
         while task.wait(1) do
             if not hrp:FindFirstChild'Alignment' then
+                vel = Instance.new'BodyVelocity'
                 Vel()
             end
         end
