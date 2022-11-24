@@ -4,13 +4,12 @@ until game:service'Players'.LocalPlayer and game:service'Players'.LocalPlayer.Ch
 
 client = game:service'Players'.LocalPlayer
 hrp = client.Character:WaitForChild'HumanoidRootPart'
-vel = Instance.new'BodyVelocity'
 
 function Vel()
+    vel = Instance.new('BodyVelocity', client.Character.HumanoidRootPart)
     vel.Name = 'Alignment'
     vel.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
     vel.Velocity = Vector3.new(0, 0, 0)
-    vel.Parent = hrp
 end
 
 if game.PlaceId == 7274690025 or game.PlaceId == 6938803436 and Settings.Start then
@@ -37,19 +36,15 @@ end
 if game.PlaceId == 6990129309 and Settings.Start then
     Vel()
     task.spawn(function()
-        while task.wait(1) do
-            if not hrp:FindFirstChild'Alignment' then
-                vel = Instance.new'BodyVelocity'
-                Vel()
-            end
-        end
-    end)
-    task.spawn(function()
     while task.wait() do
+        if not client.Character.HumanoidRootPart:FindFirstChild'Alignment' then
+            Vel()
+        end
         pcall(function()
             for m, n in pairs(game:service'Workspace'.Folders.Monsters:GetChildren()) do
                 repeat
                     game:service'RunService'.Heartbeat:wait()
+                    workspace.CurrentCamera.CFrame = CFrame.new(client.Character['HumanoidRootPart'].Position, n.HumanoidRootPart.Position) * CFrame.new(0, 2, 25)
                     local T = (n.HumanoidRootPart.Position - hrp.Position).Magnitude
                     if T < 999 then
                         Speed2 = 80
