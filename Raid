@@ -73,3 +73,19 @@ if Settings.Raid and game.PlaceId ~= Instance.Low and game.PlaceId ~= Instance.H
         end
     end)
 end
+
+client.Idled:Connect(function()
+	local vu = game:service'VirtualUser'
+	vu:CaptureController()
+	vu:ClickButton2(Vector2.new())
+end)
+
+run.Stepped:connect(function()
+    getgenv().rejoin = game:service'CoreGui'.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
+        if child.Name == 'ErrorPrompt' and child:FindFirstChild'MessageArea' and child.MessageArea:FindFirstChild'ErrorFrame' then 
+            initiate:Teleport(Instance.Low)
+            wait(5)
+            initiate:TeleportToPlaceInstance(Instance.Low, game.JobId)
+        end
+    end)
+end)
