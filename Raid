@@ -17,7 +17,7 @@ if Settings.Initiate and game.PlaceId == Instance.Lobby then
         while task.wait(3) do
             replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('CreateRoom', {['Difficulty'] = 'Easy', ['FriendsOnly'] = true, ['MapName'] = Settings.Raid, ['Hardcore'] = false})
             wait(1)
-            rep.RemoteFunctions.MainRemoteFunction:InvokeServer('TeleportPlayers')
+            replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('TeleportPlayers')
         end
     end)
 end
