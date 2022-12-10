@@ -61,6 +61,9 @@ if Settings.Raid and game.PlaceId ~= Instance.Low and game.PlaceId ~= Instance.H
             for m, b in pairs(getconnections(Holder.Skill4.MouseButton1Click)) do
                 b:Fire()
             end
+            for m, b in pairs(getconnections(Holder.Skill5.MouseButton1Click)) do
+                b:Fire()
+            end
             for m, b in pairs(getconnections(Holder.SkillAssist1.MouseButton1Click)) do
                 b:Fire()
             end
