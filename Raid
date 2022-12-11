@@ -6,7 +6,7 @@ run = game:service'RunService'
 initiate = game:service'TeleportService'
 replicated = game:service'ReplicatedStorage'
 
-Instance = {Low = 6938803436, High = 7274690025, Lobby = 7338881230}
+Instance = {Low = 6938803436, High = 7274690025, Lobby = 7338881230, Afk = 6990131029}
 
 if Settings.Initiate and game.PlaceId == Instance.Low or game.PlaceId == Instance.High then
     initiate:Teleport(Instance.Lobby)
@@ -18,9 +18,19 @@ if Settings.Initiate and game.PlaceId == Instance.Lobby then
             replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('CreateRoom', {['Difficulty'] = 'Easy', ['FriendsOnly'] = true, ['MapName'] = Settings.Raid, ['Hardcore'] = false})
             wait(1)
             replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('TeleportPlayers')
+            wait(10)
+            replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('TeleportToAFK')
         end
     end)
 end
+
+if Settings.Initiate and game.PlaceId == Instance.Afk then
+    spawn(function()
+        wait(300)
+        replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('TeleportToLobbyAFK', true)
+    end)
+end
+
 
 if Settings.Raid and game.PlaceId ~= Instance.Low and game.PlaceId ~= Instance.High and game.PlaceId ~= Instance.Lobby then
     task.spawn(function()
