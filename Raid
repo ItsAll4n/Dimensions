@@ -14,6 +14,17 @@ end
 
 if Settings.Initiate and game.PlaceId == Instance.Lobby then
     task.spawn(function()
+        while task.wait(1) do
+            replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('CompleteDailyQuest', 'DailyQuest_Login')
+            replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('CompleteDailyQuest', 'DailyQuest_DungeonClear')
+            replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('CompleteDailyQuest', 'DailyQuest_Enemies')
+            replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('CompleteDailyQuest', 'DailyQuest_TimeChallenge')
+            replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('CompleteDailyQuest', 'DailyQuest_Raid')
+            replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('CompleteDailyQuest', 'DailyQuest_BossRush')
+            replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('CompleteDailyQuest', 'DailyQuest_AllQuestClear')
+        end
+    end)
+    task.spawn(function()
         while task.wait(3) do
             replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('CreateRoom', {['Difficulty'] = 'Easy', ['FriendsOnly'] = true, ['MapName'] = Settings.Raid, ['Hardcore'] = false})
             wait(1)
@@ -26,6 +37,15 @@ end
 
 if Settings.Initiate and game.PlaceId == Instance.Afk then
     spawn(function()
+        getgenv().name = client.Name..'StatDisplay'
+        currency = replicated[name].AfkCurrencyChosen.Value
+        if Settings.Token and currency == 'Gem' then
+            replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('ChangeAFKCurrency')
+            wait(1)
+            for m, c in pairs(getconnections(client.PlayerGui.AfkGui.CenterUIFrame.Frame.ChangeCurrency.MouseButton1Click)) do
+                c:Fire()
+            end
+        end
         wait(300)
         replicated.RemoteFunctions.MainRemoteFunction:InvokeServer('TeleportToLobbyAFK', true)
     end)
